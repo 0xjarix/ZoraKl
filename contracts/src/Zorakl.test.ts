@@ -70,9 +70,9 @@ describe('Zorakl', () => {
       await txn.sign([senderKey]).send();
 
       const events = await zkApp.fetchEvents();
-      const verifiedEventValuePrice = events[0].event.data.toFields(null)[0];
+      const verifiedEventValuePrice = events[1].event.data.toFields(null)[0];
       expect(verifiedEventValuePrice).toEqual(price);
-      const verifiedEventValueTime = events[1].event.data.toFields(null)[0];
+      const verifiedEventValueTime = events[0].event.data.toFields(null)[0];
       expect(verifiedEventValueTime).toEqual(time);
     });
 
