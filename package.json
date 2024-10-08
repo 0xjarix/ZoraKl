@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "o1js": "^1.8.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.13"
+  }
+}

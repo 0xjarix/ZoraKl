@@ -12,14 +12,18 @@ export class PriceData extends Struct({
   price: Field,
   time: Field,
 }){}
-export const ORACLE_PUBLIC_KEY = "B62qpDUv13RzSnUdkesu9m78YGysb6KUuCCAdfxs8NX3oksm6rrBF1d"
-export class Zorakl extends SmartContract {
+
+// The public key of our trusted data provider
+const ORACLE_PUBLIC_KEY =
+  'B62qpDUv13RzSnUdkesu9m78YGysb6KUuCCAdfxs8NX3oksm6rrBF1d';
+
+export class Zorakl extends SmartContract {  
   // Define zkApp state
   @state(PublicKey) oraclePublicKey = State<PublicKey>();
-  // @state(Field) profit = State<Field>();
-  @state(Field) currentPrice = State<Field>();
-  // @state(PriceData) priceData = State<PriceData>();
-
+  //@state(Field) profit = State<Field>();
+  //@state(Field) balance = State<Field>();
+  @state(PriceData) priceData = State<PriceData>();
+  
   // Define zkApp events
   events = {
     verified_price: Field,
@@ -35,9 +39,9 @@ export class Zorakl extends SmartContract {
     // Specify that caller should include signature with tx instead of proof
     this.requireSignature();
     // Initialize contract profit state
-    // this.profit.set(Field(0));
-    //  // Initialize contract balance state
-    // this.balance.set(Field(0));
+    //this.profit.set(Field(0));
+     // Initialize contract balance state
+    //this.balance.set(Field(0));
   }
 
   @method async verify(time: Field, price: Field, signature: Signature) {
@@ -49,15 +53,15 @@ export class Zorakl extends SmartContract {
     // Check that the signature is valid
     validSignature.assertTrue();
     //store the last price and time
-    // this.priceData.set(new PriceData(price,time));
+    this.priceData.set(new PriceData({price, time}));
     // Emit an event containing the verified price
     this.emitEvent("verified_price", price);
     // Emit an event containing the verified time
     this.emitEvent("verified_time", time);
   }
 
-  @method async getPriceData() {
-    // return this.priceData.get();
+  /*@method async getPriceData() {
+    return this.priceData.get();
   }
 
 
@@ -69,5 +73,6 @@ export class Zorakl extends SmartContract {
 
   @method async sell(amount: Field) {
     //call verifies data
-  }
+    
+  }*/
 }
