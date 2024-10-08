@@ -1,4 +1,4 @@
-import { Field, SmartContract, state, State, method,Signature, PublicKey, Struct,  } from 'o1js';
+import { Field, SmartContract, state, State, method,Signature, PublicKey, Struct  } from 'o1js';
 
 /**
  *
@@ -60,12 +60,14 @@ export class Zorakl extends SmartContract {
     this.emitEvent("verified_time", time);
   }
 
-  /*@method async getPriceData() {
-    return this.priceData.get();
+  @method async getPriceData(): Promise<void> {
+    const priceData = await this.priceData.get();
+    // Handle the priceData as needed
+    console.log(priceData);
   }
 
 
-  // @method async buy(signedData:SignedDataamount: Field) {
+  /*// @method async buy(signedData:SignedDataamount: Field) {
   // //call verifies data
   // //verifies/update balance
   // //verifies/update profit
