@@ -1,4 +1,4 @@
-import { Field, SmartContract, state, State, method,Signature, PublicKey, Struct,  } from 'o1js';
+import { Field, SmartContract, state, State, method,Signature, PublicKey, Struct, assert,  } from 'o1js';
 
 /**
  *
@@ -23,6 +23,7 @@ export class Zorakl extends SmartContract {
   //@state(Field) profit = State<Field>();
   //@state(Field) balance = State<Field>();
   @state(PriceData) priceData = State<PriceData>();
+  @state(Field) maxDelayTime = State<Field>();
   
   // Define zkApp events
   events = {
@@ -41,6 +42,7 @@ export class Zorakl extends SmartContract {
     //this.profit.set(Field(0));
      // Initialize contract balance state
     //this.balance.set(Field(0));
+    this.maxDelayTime.set(Field(60));
   }
 
   @method async verify(time: Field, price: Field, signature: Signature) {
@@ -59,12 +61,19 @@ export class Zorakl extends SmartContract {
     this.emitEvent("verified_time", time);
   }
 
-  /*@method async getPriceData() {
-    return this.priceData.get();
+  @method async getPriceData() {
+    const price = this.priceData.get().price;
+    const time = this.priceData.get().time;
+    assert(this.priceData.get() !== undefined, "Price data not available");
+    assert(price.greaterThan(Field(0)), "Price not available");
+    assert(time.greaterThan(Field(Date.now()).sub(this.maxDelayTime.get())), "Time not available");
   }
 
+  @method async setMaxDelayTime(maxDelayTime: Field) {
+    this.maxDelayTime.set(maxDelayTime);
+  }
 
-  @method async buy(signedData:SignedDataamount: Field) {
+  /*@method async buy(signedData:SignedDataamount: Field) {
   //call verifies data
   //verifies/update balance
   //verifies/update profit 
