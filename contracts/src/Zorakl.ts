@@ -12,7 +12,7 @@ export class PriceData extends Struct({
   price: Field,
   time: Field,
 }){}
-export const ORACLE_PUBLIC_KEY = "B62qoAE4rBRuTgC42vqvEyUqCGhaZsW58SKVW4Ht8aYqP9UTvxFWBgy"
+export const ORACLE_PUBLIC_KEY = "B62qpDUv13RzSnUdkesu9m78YGysb6KUuCCAdfxs8NX3oksm6rrBF1d"
 export class Zorakl extends SmartContract {
   // Define zkApp state
   @state(PublicKey) oraclePublicKey = State<PublicKey>();
